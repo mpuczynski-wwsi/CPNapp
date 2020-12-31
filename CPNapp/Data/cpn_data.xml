@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<cpn>
+  <options></options>
+  <dispensers>
+    <dispenser>
+      <number>1</number>
+      <fuel_list>
+        <fuel>
+          <name>B95</name>
+          <price>435</price>
+          <quantity>25000</quantity>
+        </fuel>
+        <fuel>
+          <name>B98</name>
+          <price>475</price>
+          <quantity>25000</quantity>
+        </fuel>
+        <fuel>
+          <name>ON</name>
+          <price>510</price>
+          <quantity>25000</quantity>
+        </fuel>
+        <fuel>
+          <name>LPG</name>
+          <price>248</price>
+          <quantity>25000</quantity>
+        </fuel>
+      </fuel_list>
+    </dispenser>
+  </dispensers>
+</cpn>
