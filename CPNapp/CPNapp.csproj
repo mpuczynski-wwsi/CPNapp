@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benzyna.cs" />
+    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\LoginController.cs" />
     <Compile Include="Controller\PracownikController.cs" />
     <Compile Include="Data\Cpn.cs" />
     <Compile Include="Data\ReadConfig.cs" />

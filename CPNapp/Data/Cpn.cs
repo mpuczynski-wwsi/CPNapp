@@ -33,5 +33,6 @@ namespace CPNapp.Data
 
     public class Options
     {
+        public List<User> Users;
     }
 }

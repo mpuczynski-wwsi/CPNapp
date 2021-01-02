@@ -1,4 +1,5 @@
-﻿using NStack;
+﻿using CPNapp.Controller;
+using NStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,10 @@ namespace CPNapp.Views
 {
     class Login : IShow
     {
-        public void Show(Toplevel top)
+
+		public LoginController Controller { get; set; }
+
+		public void Show(Toplevel top)
         {
 			// Creates the top-level window to show
 			var win = new Window("CPN app")
@@ -43,7 +47,7 @@ namespace CPNapp.Views
 			logo.AppendLine("▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
 			logo.AppendLine(" ▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
 			logo.AppendLine("  ▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ");
-			logo.AppendLine("            ▓▓▓▓▓▓▓           ");
+			logo.AppendLine("            ▓▓▓▓▓▓▓ app       ");
 			Label logoLabel = new Label() { X = 15, Y = 0, Height = 16, Width = 35 };
 
 			logoLabel.Text = ustring.Make(logo.ToString()); // .Replace(" ", "\u00A0"); // \u00A0 is 'non-breaking space
@@ -59,7 +63,7 @@ namespace CPNapp.Views
 			{
 				X = Pos.Right(password),
 				Y = Pos.Top(login),
-				Width = 40
+				Width = 30
 			};
 			var passText = new TextField("")
 			{
@@ -69,7 +73,7 @@ namespace CPNapp.Views
 				Width = Dim.Width(loginText)
 			};
 
-			Button loginButton = new Button(3, 22, "Login");
+			Button loginButton = new Button(6, 22, "Login");
 			// Add some controls, 
 			win.Add(
 				// The ones with my favorite layout system, Computed
@@ -79,15 +83,30 @@ namespace CPNapp.Views
 				// new CheckBox(3, 6, "Remember me"),
 				//new RadioGroup(3, 8, (new[] { NStack.ustring.Make("_Personal"), "_Company" })),
 				loginButton,
-				new Button(10, 22, "Cancel")
+				new Button(18, 22, "Cancel")
 			);
 
 
 			loginButton.Clicked += () => {
 				var btnText = loginButton.Text.ToString();
-				var l = loginText.Text;
-				var p = passText.Text;
-				MessageBox.Query("Message", $"Did you click {btnText}?", "Yes", "No");
+				var l = loginText.Text.ToString();
+				var p = passText.Text.ToString();
+
+				var (result, user) = Controller.Login(l,p);
+				if (result)
+                {
+					top.Remove(win);
+					win.Dispose();
+					win.Clear();
+
+					Controller.RedirectToWindow(user);
+					
+
+                } else
+                {
+					MessageBox.ErrorQuery("Exception", "Błędne dane logowania.", "Ok");
+
+				}
 			};
 		}
     }

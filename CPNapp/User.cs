@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace CPNapp
 {
-    class User
+    public enum Roles
+    {
+        Klient,
+        Pracownik,
+    }
+    public class User
     {
         public string Login { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string Role { get; set; }
+        public Roles Role { get; set; }
 
     }
 }

@@ -24,27 +24,18 @@ namespace CPNapp
 
         static void Main(string[] args)
         {
+            Application.Init();
+            Top = Application.Top;
 
-            IShow loginView = new Login();
-            IShow pracownikView = new Pracownik()
+            IShow loginView = new Login()
             {
-                Controller = new PracownikController()
+                Controller = new LoginController(Top)
             };
 
-
-
-
-
-            Application.Init();
-			Top = Application.Top;
             if (LoggedUser == null)
             {
-                pracownikView.Show(Top);
-                //loginView.Show(Top);
-            }
-            else
-            {
-
+                //pracownikView.Show(Top);
+                loginView.Show(Top);
             }
 
 

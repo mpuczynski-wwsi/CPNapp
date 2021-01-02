@@ -158,9 +158,6 @@ namespace CPNapp.Views
 			window2.Add(fillButton);
 
 
-
-
-
 			win.Add(window2);
 
 
@@ -213,19 +210,7 @@ namespace CPNapp.Views
 				};
 			}
 
-
-
-
-
 			top.Add(win);
-
-
-
-
-
-
-
-
 
 
 		}

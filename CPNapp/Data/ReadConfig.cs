@@ -128,9 +128,40 @@ namespace CPNapp.Data
                 }
             };
 
+            var options = new Options()
+            {
+                Users = new List<User>()
+                {
+                    new User()
+                    {
+                        Login= "pracownik",
+                        Password= "admin123",
+                        Role= Roles.Pracownik
+                    },
+                    new User()
+                    {
+                        Login= "klient1",
+                        Password= "klient123",
+                        Role= Roles.Klient
+                    },
+                    new User()
+                    {
+                        Login= "klient2",
+                        Password= "klient123",
+                        Role= Roles.Klient
+                    },
+                    new User()
+                    {
+                        Login= "klient3",
+                        Password= "klient123",
+                        Role= Roles.Klient
+                    },
+                }
+            };
+
             Cpn cpnSettings = new Cpn()
             {
-                Options = new Options(),
+                Options = options,
                 Dispensers = dispensers
             };
             SaveXml(cpnSettings);
