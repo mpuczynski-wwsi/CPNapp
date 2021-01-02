@@ -37,7 +37,7 @@ namespace CPNapp.Views
 
 
 
-			var window1 = new Window()
+			var window1 = new FrameView("Dystrybutory")
 			{
 				X = Pos.Percent(0),
 				Y = 0,
@@ -52,6 +52,7 @@ namespace CPNapp.Views
 			var listWin = new List<View>();
 			var btnList = new List<Button>();
 			var dystrybutorNames = new List<ustring>();
+			var dispensersList = new List<Dystrybutor>();
 			foreach (var dispenser in Controller.Config.Dispensers)
             {
 				var dystrybutorName = $"Dystrybutor {dispenser.Number}";
@@ -68,7 +69,7 @@ namespace CPNapp.Views
 					MaxVolume= dispenser.MaxVolumePerType
 				};
 
-
+				dispensersList.Add(dystrybutor);
 				Window subWin = dystrybutor.GetWindow(top);
 				window1.Add(subWin);
 				listWin.Add(subWin);
@@ -90,7 +91,7 @@ namespace CPNapp.Views
 
 
 
-			var window2 = new Window("Doładuj zbiornik")
+			var window2 = new FrameView("Doładuj zbiornik")
 			{
 				X = Pos.Percent(70),
 				Y = 0,
@@ -119,21 +120,83 @@ namespace CPNapp.Views
 				(dispenser) => dispenser.Number == _selectedDispenser
 			).Select(d => d.FuelList.Select(d1 => (ustring)d1.Name)).SelectMany(d => d).ToArray();
 
-            var radioGroup = new RadioGroup(rodzaje)
+            var rodzajRadioGroup = new RadioGroup(rodzaje)
             {
                 X = 3,
                 Y = 3,
-                SelectedItem = 2,
+                SelectedItem = 0,
             };
 
-			window2.Add(radioGroup);
+			window2.Add(rodzajRadioGroup);
+
+			var label = new Label("Ile") 
+			{
+				X = 1,
+				Y = Pos.Bottom(rodzajRadioGroup) + 1,
+				Width = 4,
+				Height=1,
+				TextAlignment=TextAlignment.Left
+			};
+			window2.Add(label);
+
+			var ileTextField = new TextField()
+			{
+				X = 5,
+				Y = Pos.Bottom(rodzajRadioGroup) + 1,
+				Width = 20
+				//ColorScheme = Colors.Dialog
+			};
+			window2.Add(ileTextField);
+
+			var fillButton = new Button("Napełnij zbiornik")
+			{
+				ColorScheme = Colors.Base,
+				//X = Pos.Right (prev) + 2,
+				X = 6,
+				Y = Pos.Bottom(ileTextField) + 2,
+			};
+			window2.Add(fillButton);
+
+
 
 
 
 			win.Add(window2);
 
 
+			ileTextField.Leave += (e) =>
+            {
+				var s = ileTextField.Text.ToString();
+				int i;
+				if (!int.TryParse(s, out i))
+                {
+					ileTextField.Text = "";
+					var r = MessageBox.ErrorQuery("Exception", "Wprowadzony tekst nie jest cyfra", "Ok");
+				}
 
+
+			};
+
+			fillButton.Clicked += () =>
+			{
+				var dispenser = Controller.Config.Dispensers;
+				int rodzaj = rodzajRadioGroup.SelectedItem;
+				if (!ileTextField.Text.IsEmpty)
+                {
+					int value = Int32.Parse(ileTextField.Text.ToString());
+					if (value + dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume > dispenser[_selectedDispenser-1].MaxVolumePerType)
+                    {
+						var r = MessageBox.ErrorQuery("Exception", "Zbiornik jest pełny", "Ok");
+
+					} else
+                    {
+						dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume += value;
+						Controller.UpdateConfigFile(Controller.Config);
+						dispensersList[_selectedDispenser - 1].updateProgressBar();
+					}
+				}
+
+			};
 
 
 
@@ -149,14 +212,6 @@ namespace CPNapp.Views
 
 				};
 			}
-
-
-
-
-
-
-
-
 
 
 

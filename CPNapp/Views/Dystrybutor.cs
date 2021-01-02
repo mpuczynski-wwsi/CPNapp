@@ -27,6 +27,7 @@ namespace CPNapp.Views
 
         public bool PracownikEdit { get; set; }
         public int MaxVolume { get; set; }
+        public List<ProgressBar> ProgressBarList { get; set; }
 
         public Window GetWindow(Toplevel top)
         {
@@ -120,9 +121,10 @@ namespace CPNapp.Views
                 progressColors.HotFocus = MakeColor(ConsoleColor.Yellow, ConsoleColor.Cyan);
 
                 Pos y = Pos.Bottom(labelDispenserVolume) + 1;
+                ProgressBarList = new List<ProgressBar>();
                 foreach (Fuel f in FuelList)
                 {
-                    float fraction =  f.Volume * 100 / MaxVolume; 
+                    float fraction =  f.Volume / (float)MaxVolume; 
 
                     var label = new Label($"{f.Name} ")
                     {
@@ -144,6 +146,7 @@ namespace CPNapp.Views
                         ColorScheme = progressColors
                     };
                     win.Add(pb);
+                    ProgressBarList.Add(pb);
                     y += 2;
                 }
 
@@ -153,6 +156,18 @@ namespace CPNapp.Views
 
 
             return win;
+        }
+
+        public void updateProgressBar()
+        {
+            int i = 0;
+            foreach (Fuel f in FuelList)
+            {
+                float fraction = f.Volume / (float)MaxVolume;
+                ProgressBarList[i].Fraction = fraction;
+                ProgressBarList[i].Redraw(ProgressBarList[i].Bounds);
+                i++;
+            }
         }
 
         private string getPricePerUnit()
