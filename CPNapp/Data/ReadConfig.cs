@@ -12,39 +12,97 @@ namespace CPNapp.Data
     {
 
         private int _maxVolume = 20000;
-        public void CreateXml(string filename)
+        private string _filename = "cpn_data.xml";
+
+
+        public void CreateXml()
         {
             // Creates an instance of the XmlSerializer class;
             // specifies the type of object to serialize.
-            XmlSerializer serializer = new XmlSerializer(typeof(Cpn));
-            TextWriter writer = new StreamWriter(filename);
 
 
-            List<Fuel> fuelList = new List<Fuel>()
+
+            List<Fuel> fuelList1 = new List<Fuel>()
             {
                 new Fuel()
                 {
                     Name = "B95",
                     Price = 445,
-                    Volume = 20000,
+                    Volume = 6068,
                 },
                 new Fuel()
                 {
                     Name = "B98",
                     Price = 475,
-                    Volume = 20000,
+                    Volume = 12882,
                 },
                 new Fuel()
                 {
                     Name = "ON",
                     Price = 515,
-                    Volume = 20000,
+                    Volume = 9319,
                 },
                 new Fuel()
                 {
                     Name = "LPG",
                     Price = 275,
-                    Volume = 20000,
+                    Volume = 4913,
+                }
+            };
+
+            List<Fuel> fuelList2 = new List<Fuel>()
+            {
+                new Fuel()
+                {
+                    Name = "B95",
+                    Price = 445,
+                    Volume = 9156,
+                },
+                new Fuel()
+                {
+                    Name = "B98",
+                    Price = 475,
+                    Volume = 12782,
+                },
+                new Fuel()
+                {
+                    Name = "ON",
+                    Price = 515,
+                    Volume = 15705,
+                },
+                new Fuel()
+                {
+                    Name = "LPG",
+                    Price = 275,
+                    Volume = 9321,
+                }
+            };
+
+            List<Fuel> fuelList3 = new List<Fuel>()
+            {
+                new Fuel()
+                {
+                    Name = "B95",
+                    Price = 445,
+                    Volume = 4265,
+                },
+                new Fuel()
+                {
+                    Name = "B98",
+                    Price = 475,
+                    Volume = 18857,
+                },
+                new Fuel()
+                {
+                    Name = "ON",
+                    Price = 515,
+                    Volume = 12886,
+                },
+                new Fuel()
+                {
+                    Name = "LPG",
+                    Price = 275,
+                    Volume = 12136,
                 }
             };
 
@@ -53,43 +111,57 @@ namespace CPNapp.Data
                 new Dispenser()
                 {
                     Number=1,
-                    FuelList=fuelList,
+                    FuelList=fuelList1,
                     MaxVolumePerType=_maxVolume
                 },
                 new Dispenser()
                 {
                     Number=2,
-                    FuelList=fuelList,
+                    FuelList=fuelList2,
                     MaxVolumePerType=_maxVolume
                 },
                 new Dispenser()
                 {
                     Number=3,
-                    FuelList=fuelList,
+                    FuelList=fuelList3,
                     MaxVolumePerType=_maxVolume
                 }
             };
 
-            Cpn cpn_settings = new Cpn()
+            Cpn cpnSettings = new Cpn()
             {
                 Options = new Options(),
                 Dispensers = dispensers
             };
+            SaveXml(cpnSettings);
 
-            serializer.Serialize(writer, cpn_settings);
-            writer.Close();
         }
 
-        public Cpn ReadXml(string filename)
+        public Cpn ReadXml()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Cpn));
 
             serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
             serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
 
-            FileStream fs = new FileStream(filename, FileMode.Open);
+            FileStream fs = new FileStream(_filename, FileMode.Open);
             Cpn cpn = (Cpn)serializer.Deserialize(fs);
+            fs.Close();
             return cpn;
+        }
+
+        public void SaveXml(Cpn cpnSettings)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Cpn));
+            TextWriter writer = new StreamWriter(_filename);
+
+            serializer.Serialize(writer, cpnSettings);
+            writer.Close();
+        }
+
+        public void SetFilename(string filename)
+        {
+            _filename = filename;
         }
 
         private void serializer_UnknownNode(object sender, XmlNodeEventArgs e)
