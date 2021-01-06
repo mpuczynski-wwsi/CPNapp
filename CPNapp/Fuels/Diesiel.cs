@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CPNapp
+namespace CPNapp.Fuels
 {
-    class OlejNapedowy: Paliwo
+    public class Diesiel : Fuel
     {
         private bool czyAdBlue { get; set; }
     }

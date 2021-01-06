@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPNapp.Fuels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,85 +25,94 @@ namespace CPNapp.Data
 
             List<Fuel> fuelList1 = new List<Fuel>()
             {
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B95",
+                    Symbol = "B95",
                     Price = 445,
-                    Volume = 6068,
+                    Quantity = 6068,
+                    Type=PetrolType.Benzyna95
                 },
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B98",
+                    Symbol = "B98",
                     Price = 475,
-                    Volume = 12882,
+                    Quantity = 12882,
+                    Type=PetrolType.Benzyna98
                 },
-                new Fuel()
+                new Diesiel()
                 {
-                    Name = "ON",
+                    Symbol = "ON",
                     Price = 515,
-                    Volume = 9319,
+                    Quantity = 9319,
                 },
-                new Fuel()
+                new Gas()
                 {
-                    Name = "LPG",
+                    Symbol = "LPG",
                     Price = 275,
-                    Volume = 4913,
+                    Quantity = 4913,
+                    Type=GasType.LPG
                 }
             };
 
             List<Fuel> fuelList2 = new List<Fuel>()
             {
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B95",
+                    Symbol = "B95",
                     Price = 445,
-                    Volume = 9156,
+                    Quantity = 9156,
+                    Type=PetrolType.Benzyna95
                 },
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B98",
+                    Symbol = "B98",
                     Price = 475,
-                    Volume = 12782,
+                    Quantity = 12782,
+                    Type=PetrolType.Benzyna98
                 },
-                new Fuel()
+                new Diesiel()
                 {
-                    Name = "ON",
+                    Symbol = "ON",
                     Price = 515,
-                    Volume = 15705,
+                    Quantity = 15705,
                 },
-                new Fuel()
+                new Gas()
                 {
-                    Name = "LPG",
+                    Symbol = "LPG",
                     Price = 275,
-                    Volume = 9321,
+                    Quantity = 9321,
+                    Type=GasType.LPG
                 }
             };
 
             List<Fuel> fuelList3 = new List<Fuel>()
             {
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B95",
+                    Symbol = "B95",
                     Price = 445,
-                    Volume = 4265,
+                    Quantity = 4265,
+                    Type=PetrolType.Benzyna95
                 },
-                new Fuel()
+                new Petrol()
                 {
-                    Name = "B98",
+                    Symbol = "B98",
                     Price = 475,
-                    Volume = 18857,
+                    Quantity = 18857,
+                    Type=PetrolType.Benzyna98
                 },
-                new Fuel()
+                new Diesiel()
                 {
-                    Name = "ON",
+                    Symbol = "ON",
                     Price = 515,
-                    Volume = 12886,
+                    Quantity = 12886,
                 },
-                new Fuel()
+                new Gas()
                 {
-                    Name = "LPG",
+                    Symbol = "LPG",
                     Price = 275,
-                    Volume = 12136,
+                    Quantity = 12136,
+                    Type=GasType.LPG
                 }
             };
 
@@ -154,6 +164,18 @@ namespace CPNapp.Data
                     {
                         Login= "klient3",
                         Password= "klient123",
+                        Role= Roles.Klient
+                    },
+                    new User()
+                    {
+                        Login= "k",
+                        Password= "k",
+                        Role= Roles.Klient
+                    },
+                    new User()
+                    {
+                        Login= "p",
+                        Password= "p",
                         Role= Roles.Klient
                     },
                 }

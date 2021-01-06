@@ -66,15 +66,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Benzyna.cs" />
+    <Compile Include="Fuels\Petrol.cs" />
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Controller\LoginController.cs" />
+    <Compile Include="Controller\KlientController.cs" />
     <Compile Include="Controller\PracownikController.cs" />
     <Compile Include="Data\Cpn.cs" />
     <Compile Include="Data\ReadConfig.cs" />
-    <Compile Include="Gaz.cs" />
-    <Compile Include="OlejNapedowy.cs" />
-    <Compile Include="Paliwo.cs" />
+    <Compile Include="Fuels\Gas.cs" />
+    <Compile Include="Fuels\Diesiel.cs" />
+    <Compile Include="Fuels\Fuel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -84,6 +85,7 @@
     </Compile>
     <Compile Include="Views\Dystrybutor.cs" />
     <Compile Include="Views\IShow.cs" />
+    <Compile Include="Views\Klient.cs" />
     <Compile Include="Views\Pracownik.cs" />
     <Compile Include="Views\Login.cs" />
     <Compile Include="User.cs" />

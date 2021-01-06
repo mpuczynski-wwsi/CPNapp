@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CPNapp
+namespace CPNapp.Fuels
 {
 
-    enum RodzajBenzyny
+    public enum PetrolType
     {
         Benzyna95,
         Benzyna98
     }
-    class Benzyna : Paliwo
+    public class Petrol : Fuel
     {
-        public RodzajBenzyny Rodzaj { get; set; }
+        public PetrolType Type { get; set; }
     }
 }

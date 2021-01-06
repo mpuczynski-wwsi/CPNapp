@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CPNapp
+namespace CPNapp.Fuels
 {
-    enum RodzajGazu
+    public enum GasType
     {
         LNG,
         LPG,
         CNG,
     }
-    class Gaz: Paliwo
+    public class Gas: Fuel
     {
-        public RodzajGazu Rodzaj { get; set; }
+        public GasType Type { get; set; }
 
     }
 }

@@ -34,7 +34,6 @@ namespace CPNapp
 
             if (LoggedUser == null)
             {
-                //pracownikView.Show(Top);
                 loginView.Show(Top);
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPNapp.Fuels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +22,6 @@ namespace CPNapp.Data
         public int Number;
         public List<Fuel> FuelList = new List<Fuel>();
         public int MaxVolumePerType;
-    }
-
-    public class Fuel
-    {
-        public string Name;
-        public int Price;
-        public int Volume;
-
     }
 
     public class Options
