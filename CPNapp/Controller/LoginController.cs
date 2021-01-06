@@ -15,6 +15,7 @@ namespace CPNapp.Controller
     {
 
         private IShow _pracownikView;
+        private IShow _klientView;
         private Toplevel _top;
         public LoginController(Toplevel top)
         {
@@ -22,6 +23,10 @@ namespace CPNapp.Controller
             _pracownikView = new Pracownik()
             {
                 Controller = new PracownikController()
+            };
+            _klientView = new Klient()
+            {
+                Controller = new KlientController()
             };
         }
 
@@ -45,6 +50,7 @@ namespace CPNapp.Controller
             switch (user.Role)
             {
                 case Roles.Klient:
+                    _klientView.Show(_top);
                     break;
 
                 case Roles.Pracownik:
