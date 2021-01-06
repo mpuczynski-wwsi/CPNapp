@@ -1,4 +1,5 @@
 ﻿using CPNapp.Data;
+using CPNapp.Fuels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,20 @@ namespace CPNapp.Views
 
         public string Title { get; set; }
 
+
         public int PricePerUnit { get; set; }
         public int ActualPrice { get; set; }
         public int ActualQuantity { get; set; }
 
 
+        public int SelectedFuel { get; set; }
         public List<Fuel> FuelList { get; set; }
+
 
         public bool PracownikEdit { get; set; }
         public int MaxVolume { get; set; }
         public List<ProgressBar> ProgressBarList { get; set; }
+
 
         public Window GetWindow(Toplevel top)
         {
@@ -124,9 +129,9 @@ namespace CPNapp.Views
                 ProgressBarList = new List<ProgressBar>();
                 foreach (Fuel f in FuelList)
                 {
-                    float fraction =  f.Volume / (float)MaxVolume; 
+                    float fraction =  f.Quantity / (float)MaxVolume; 
 
-                    var label = new Label($"{f.Name} ")
+                    var label = new Label($"{f.Symbol} ")
                     {
                         X = 0,
                         Y = y,
@@ -163,7 +168,7 @@ namespace CPNapp.Views
             int i = 0;
             foreach (Fuel f in FuelList)
             {
-                float fraction = f.Volume / (float)MaxVolume;
+                float fraction = f.Quantity / (float)MaxVolume;
                 ProgressBarList[i].Fraction = fraction;
                 ProgressBarList[i].Redraw(ProgressBarList[i].Bounds);
                 i++;
@@ -172,6 +177,7 @@ namespace CPNapp.Views
 
         private string getPricePerUnit()
         {
+            SetPricePerUnit();
             var ppu = PricePerUnit / 100f;
             return String.Format("{0:0.00}", ppu);
         }
@@ -186,6 +192,18 @@ namespace CPNapp.Views
         private string getActualQuantity()
         {
             return String.Format("{0:D}", ActualQuantity);
+        }
+
+        private void SetPricePerUnit()
+        {
+            if (SelectedFuel != -1)
+            {
+                PricePerUnit = FuelList[SelectedFuel].Price;
+            }
+            else
+            {
+                PricePerUnit = 0;
+            }
         }
 
         private Attribute MakeColor(ConsoleColor f, ConsoleColor b)

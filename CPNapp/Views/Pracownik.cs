@@ -118,7 +118,7 @@ namespace CPNapp.Views
 
 			var rodzaje = Controller.Config.Dispensers.Where(
 				(dispenser) => dispenser.Number == _selectedDispenser
-			).Select(d => d.FuelList.Select(d1 => (ustring)d1.Name)).SelectMany(d => d).ToArray();
+			).Select(d => d.FuelList.Select(d1 => (ustring)d1.Symbol)).SelectMany(d => d).ToArray();
 
             var rodzajRadioGroup = new RadioGroup(rodzaje)
             {
@@ -181,13 +181,13 @@ namespace CPNapp.Views
 				if (!ileTextField.Text.IsEmpty)
                 {
 					int value = Int32.Parse(ileTextField.Text.ToString());
-					if (value + dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume > dispenser[_selectedDispenser-1].MaxVolumePerType)
+					if (value + dispenser[_selectedDispenser - 1].FuelList[rodzaj].Quantity > dispenser[_selectedDispenser-1].MaxVolumePerType)
                     {
 						var r = MessageBox.ErrorQuery("Exception", "Zbiornik jest pełny", "Ok");
 
 					} else
                     {
-						dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume += value;
+						dispenser[_selectedDispenser - 1].FuelList[rodzaj].Quantity += value;
 						Controller.UpdateConfigFile(Controller.Config);
 						dispensersList[_selectedDispenser - 1].updateProgressBar();
 					}
