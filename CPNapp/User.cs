@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPNapp.Vehicles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace CPNapp
         public string Name { get; set; }
         public string Surname { get; set; }
         public Roles Role { get; set; }
+
+        public Vehicle UsingVehicle { get; set; }
 
     }
 }

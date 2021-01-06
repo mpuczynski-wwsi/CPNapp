@@ -1,4 +1,5 @@
 ﻿using CPNapp.Fuels;
+using CPNapp.Vehicles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +12,11 @@ namespace CPNapp.Data
 {
     class ReadConfig
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private int _maxVolume = 20000;
+        private int _maxVolume = 800_000;
         private string _filename = "cpn_data.xml";
+        private Random _random = new Random();
 
 
         public void CreateXml()
@@ -29,27 +32,27 @@ namespace CPNapp.Data
                 {
                     Symbol = "B95",
                     Price = 445,
-                    Quantity = 6068,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna95
                 },
                 new Petrol()
                 {
                     Symbol = "B98",
                     Price = 475,
-                    Quantity = 12882,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna98
                 },
                 new Diesiel()
                 {
                     Symbol = "ON",
                     Price = 515,
-                    Quantity = 9319,
+                    Quantity = _random.Next(10000, _maxVolume),
                 },
                 new Gas()
                 {
                     Symbol = "LPG",
                     Price = 275,
-                    Quantity = 4913,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=GasType.LPG
                 }
             };
@@ -60,27 +63,27 @@ namespace CPNapp.Data
                 {
                     Symbol = "B95",
                     Price = 445,
-                    Quantity = 9156,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna95
                 },
                 new Petrol()
                 {
                     Symbol = "B98",
                     Price = 475,
-                    Quantity = 12782,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna98
                 },
                 new Diesiel()
                 {
                     Symbol = "ON",
                     Price = 515,
-                    Quantity = 15705,
+                    Quantity = _random.Next(10000, _maxVolume),
                 },
                 new Gas()
                 {
                     Symbol = "LPG",
                     Price = 275,
-                    Quantity = 9321,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=GasType.LPG
                 }
             };
@@ -91,27 +94,27 @@ namespace CPNapp.Data
                 {
                     Symbol = "B95",
                     Price = 445,
-                    Quantity = 4265,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna95
                 },
                 new Petrol()
                 {
                     Symbol = "B98",
                     Price = 475,
-                    Quantity = 18857,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=PetrolType.Benzyna98
                 },
                 new Diesiel()
                 {
                     Symbol = "ON",
                     Price = 515,
-                    Quantity = 12886,
+                    Quantity = _random.Next(10000, _maxVolume),
                 },
                 new Gas()
                 {
                     Symbol = "LPG",
                     Price = 275,
-                    Quantity = 12136,
+                    Quantity = _random.Next(10000, _maxVolume),
                     Type=GasType.LPG
                 }
             };
@@ -146,31 +149,55 @@ namespace CPNapp.Data
                     {
                         Login= "pracownik",
                         Password= "admin123",
-                        Role= Roles.Pracownik
+                        Role= Roles.Pracownik,
                     },
                     new User()
                     {
                         Login= "klient1",
                         Password= "klient123",
-                        Role= Roles.Klient
+                        Role= Roles.Klient,
+                        UsingVehicle= new Car()
+                        {
+                            Make="Opel",
+                            Model="Corsa",
+                            TankCapacity=45
+                        }
                     },
                     new User()
                     {
                         Login= "klient2",
                         Password= "klient123",
-                        Role= Roles.Klient
+                        Role= Roles.Klient,
+                        UsingVehicle= new Truck()
+                        {
+                            Make="Scania",
+                            Model="G",
+                            TankCapacity=500
+                        }
                     },
                     new User()
                     {
                         Login= "klient3",
                         Password= "klient123",
-                        Role= Roles.Klient
+                        Role= Roles.Klient,
+                        UsingVehicle= new Scooter()
+                        {
+                            Make="Suzuki",
+                            Model="Burgman 400",
+                            TankCapacity=14
+                        }
                     },
                     new User()
                     {
                         Login= "k",
                         Password= "k",
-                        Role= Roles.Klient
+                        Role= Roles.Klient,
+                        UsingVehicle= new Car()
+                        {
+                            Make="Opel",
+                            Model="Corsa",
+                            TankCapacity=45
+                        }
                     },
                     new User()
                     {
@@ -219,14 +246,13 @@ namespace CPNapp.Data
 
         private void serializer_UnknownNode(object sender, XmlNodeEventArgs e)
         {
-            Console.WriteLine("Unknown Node:" + e.Name + "\t" + e.Text);
+            //Logger.Info("Unknown Node:" + e.Name + "\t" + e.Text);
         }
 
         private void serializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
         {
             System.Xml.XmlAttribute attr = e.Attr;
-            Console.WriteLine("Unknown attribute " +
-            attr.Name + "='" + attr.Value + "'");
+            //Logger.Info("Unknown attribute " + attr.Name + "='" + attr.Value + "'");
         }
     }
 }
