@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Terminal.Gui;
 
@@ -145,34 +146,28 @@ namespace CPNapp.Views
 
 
 			rodzajRadioGroup.SelectedItemChanged += (args) =>
-			{
-				_selectedFuel = args.SelectedItem;
-			};
+            {
+                _selectedFuel = args.SelectedItem;
+                _applyNewPrice(dispensersList[_selectedDispenser - 1]);
+            };
 
 
 			fillButton.KeyDown += (args) =>
 			{
 				if (args.KeyEvent.Key == Terminal.Gui.Key.ControlJ)
                 {
+					var delta = 0.23;
+					var price = dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Price;
+					dispensersList[_selectedDispenser - 1].ActualQuantity = dispensersList[_selectedDispenser - 1].ActualQuantity + delta;
+					dispensersList[_selectedDispenser - 1].DispenserScreens["quantity"].Text = dispensersList[_selectedDispenser - 1].getActualQuantity();
 
-                }
-				//var dispenser = Controller.Config.Dispensers;
-				//int rodzaj = rodzajRadioGroup.SelectedItem;
-				//if (!ileTextField.Text.IsEmpty)
-    //            {
-				//	int value = Int32.Parse(ileTextField.Text.ToString());
-				//	if (value + dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume > dispenser[_selectedDispenser-1].MaxVolumePerType)
-    //                {
-				//		var r = MessageBox.ErrorQuery("Exception", "Zbiornik jest pełny", "Ok");
+					var actualPrice = (dispensersList[_selectedDispenser - 1].ActualQuantity * (float)dispensersList[_selectedDispenser - 1].PricePerUnit);
+					dispensersList[_selectedDispenser - 1].ActualPrice = (int)actualPrice;
+					dispensersList[_selectedDispenser - 1].DispenserScreens["price"].Text = dispensersList[_selectedDispenser - 1].getActualPrice();
 
-				//	} else
-    //                {
-				//		dispenser[_selectedDispenser - 1].FuelList[rodzaj].Volume += value;
-				//		Controller.UpdateConfigFile(Controller.Config);
-				//		dispensersList[_selectedDispenser - 1].updateProgressBar();
-				//	}
-				//}
 
+					Thread.Sleep(50);
+				}
 			};
 
 
@@ -183,8 +178,13 @@ namespace CPNapp.Views
 				var sel = i + 1;
 				b.Clicked += () => {
 					_unselectBtn(btnList);
+					_resetPrice(dispensersList);
 					b.Text = $"• {b.Text} •";
+
 					_selectedDispenser = sel;
+					_selectedFuel = 0;
+					_applyNewPrice(dispensersList[_selectedDispenser - 1]);
+
 					labelRodzaj.Text = $"Wybierz rodzaj paliwa który\nchesz zatankować z Dystrybutora {sel}";
 
 				};
@@ -195,12 +195,29 @@ namespace CPNapp.Views
 
 		}
 
-		private void _unselectBtn(List<Button> btns)
+        private void _applyNewPrice(Dystrybutor d)
+        {
+            d.ActualPrice = d.FuelList[_selectedFuel].Price;
+            d.SelectedFuel = _selectedFuel;
+            d.DispenserScreens["price_per_quantity"].Text = d.getPricePerUnit();
+        }
+
+        private void _unselectBtn(List<Button> btns)
 		{
 			foreach (var b in btns)
             {
 				b.Text = "Zaznacz";
+			}
+		}
 
+		private void _resetPrice(List<Dystrybutor> dispensersList)
+		{
+			foreach (var d in dispensersList)
+			{
+				_selectedFuel = 0;
+				d.PricePerUnit = 0;
+				d.SelectedFuel = _selectedFuel;
+				d.DispenserScreens["price_per_quantity"].Text = d.getPricePerUnit(false);
 			}
 		}
 	}

@@ -22,7 +22,7 @@ namespace CPNapp.Views
 
         public int PricePerUnit { get; set; }
         public int ActualPrice { get; set; }
-        public int ActualQuantity { get; set; }
+        public double ActualQuantity { get; set; }
 
 
         public int SelectedFuel { get; set; }
@@ -32,10 +32,13 @@ namespace CPNapp.Views
         public bool PracownikEdit { get; set; }
         public int MaxVolume { get; set; }
         public List<ProgressBar> ProgressBarList { get; set; }
+        public Dictionary<string, TextField> DispenserScreens { get; set; }
 
 
         public Window GetWindow(Toplevel top)
         {
+            Dictionary<string, TextField> _dispenserScreens = new Dictionary<string, TextField>();
+
             Window win = new Window(Title)
             {
                 X = X,
@@ -66,7 +69,9 @@ namespace CPNapp.Views
                 Height = 1,
                 CanFocus = false
             };
+            _dispenserScreens.Add("price", pricehEdit);
             win.Add(pricehEdit);
+
 
             var labelQuantity = new Label("Ilość:")
             {
@@ -85,6 +90,7 @@ namespace CPNapp.Views
                 Height = 1,
                 CanFocus = false
             };
+            _dispenserScreens.Add("quantity", quantityhEdit);
             win.Add(quantityhEdit);
 
             var labelPricePerQuantity = new Label("Cena / Ilość:")
@@ -104,6 +110,7 @@ namespace CPNapp.Views
                 Height = 1,
                 CanFocus=false
             };
+            _dispenserScreens.Add("price_per_quantity", pricePerQuantityEdit);
             win.Add(pricePerQuantityEdit);
 
             if (PracownikEdit)
@@ -129,7 +136,7 @@ namespace CPNapp.Views
                 ProgressBarList = new List<ProgressBar>();
                 foreach (Fuel f in FuelList)
                 {
-                    float fraction =  f.Quantity / (float)MaxVolume; 
+                    double fraction =  f.Quantity / (double)MaxVolume; 
 
                     var label = new Label($"{f.Symbol} ")
                     {
@@ -147,7 +154,7 @@ namespace CPNapp.Views
                         Y = y,
                         Width = Dim.Fill(),
                         Height = 1,
-                        Fraction = fraction,
+                        Fraction = (float)fraction,
                         ColorScheme = progressColors
                     };
                     win.Add(pb);
@@ -158,7 +165,7 @@ namespace CPNapp.Views
 
             }
 
-
+            DispenserScreens = _dispenserScreens;
 
             return win;
         }
@@ -168,30 +175,34 @@ namespace CPNapp.Views
             int i = 0;
             foreach (Fuel f in FuelList)
             {
-                float fraction = f.Quantity / (float)MaxVolume;
-                ProgressBarList[i].Fraction = fraction;
+                double fraction = f.Quantity / (float)MaxVolume;
+                ProgressBarList[i].Fraction = (float)fraction;
                 ProgressBarList[i].Redraw(ProgressBarList[i].Bounds);
                 i++;
             }
         }
 
-        private string getPricePerUnit()
+        public string getPricePerUnit(bool setPriceFromConfig = true)
         {
-            SetPricePerUnit();
+            if (setPriceFromConfig)
+            {
+                SetPricePerUnit();
+            }
             var ppu = PricePerUnit / 100f;
             return String.Format("{0:0.00}", ppu);
         }
 
 
-        private string getActualPrice()
+        public string getActualPrice()
         {
             var ap = ActualPrice / 100f;
             return String.Format("{0:0.00}", ap);
         }
 
-        private string getActualQuantity()
+        public string getActualQuantity()
         {
-            return String.Format("{0:D}", ActualQuantity);
+            var aq = ActualQuantity;
+            return String.Format("{0:0.00}", aq);
         }
 
         private void SetPricePerUnit()
