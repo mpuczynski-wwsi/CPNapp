@@ -203,7 +203,7 @@ namespace CPNapp.Data
                     {
                         Login= "p",
                         Password= "p",
-                        Role= Roles.Klient
+                        Role= Roles.Pracownik
                     },
                 }
             };
