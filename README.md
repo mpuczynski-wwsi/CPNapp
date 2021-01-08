@@ -18,6 +18,8 @@ Pracownik
 
 Kazdy klient posiada inny pojazd (o roznych zbiornikach).
 Klienci sa uruchamiani z losowym zapelnieniem zbiornika.
+Przy napelnianiu zbiornika przez pracownika z racji ze zbiorniki sa duze na progressbarze widoczne wartosci sa przy wiekszych
+wartosciach np. 40 000+
 
 ## Contributing
 
