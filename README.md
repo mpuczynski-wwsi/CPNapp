@@ -23,6 +23,12 @@ Klienci sa uruchamiani z losowym zapelnieniem zbiornika.
 Przy napelnianiu zbiornika przez pracownika z racji ze zbiorniki sa duze na progressbarze widoczne wartosci sa przy wiekszych
 wartosciach np. 40 000+  
 
+W aplikacji mozna korzystac z myszy albo poslugujac sie nastepujacymi klawiaszami:  
+- TAB - przejscie do kolejnych pol
+- SHIFT+TAB - powrot do poprzedniego pola
+- SPACE - zaznaczanie w radiobuttonach
+- ENTER - zatwierdzanie
+
 ## Contributing
 
 
