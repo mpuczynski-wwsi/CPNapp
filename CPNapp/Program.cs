@@ -18,7 +18,6 @@ namespace CPNapp
 {
     class Program
     {
-        public static User LoggedUser { get; private set; }
         private static Toplevel Top { get; set; }
 
 
@@ -27,15 +26,13 @@ namespace CPNapp
             Application.Init();
             Top = Application.Top;
 
-            IShow loginView = new Login()
+            Login loginView = new Login()
             {
                 Controller = new LoginController(Top)
             };
 
-            if (LoggedUser == null)
-            {
-                loginView.Show(Top);
-            }
+            loginView.Show(Top);
+           
 
 
 			

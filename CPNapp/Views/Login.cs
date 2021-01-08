@@ -14,7 +14,7 @@ namespace CPNapp.Views
 
 		public LoginController Controller { get; set; }
 
-		public void Show(Toplevel top)
+		public void Show(Toplevel top, User user)
         {
 			// Creates the top-level window to show
 			var win = new Window("CPN app")
@@ -92,14 +92,14 @@ namespace CPNapp.Views
 				var l = loginText.Text.ToString();
 				var p = passText.Text.ToString();
 
-				var (result, user) = Controller.Login(l,p);
+				var (result, loggedUser) = Controller.Login(l,p);
 				if (result)
                 {
 					top.Remove(win);
 					win.Dispose();
 					win.Clear();
 
-					Controller.RedirectToWindow(user);
+					Controller.RedirectToWindow(loggedUser);
 					
 
                 } else
@@ -109,5 +109,10 @@ namespace CPNapp.Views
 				}
 			};
 		}
-    }
+
+		public void Show(Toplevel top)
+		{
+			Show(top, null);
+		}
+	}
 }

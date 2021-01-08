@@ -50,11 +50,11 @@ namespace CPNapp.Controller
             switch (user.Role)
             {
                 case Roles.Klient:
-                    _klientView.Show(_top);
+                    _klientView.Show(_top, user);
                     break;
 
                 case Roles.Pracownik:
-                    _pracownikView.Show(_top);
+                    _pracownikView.Show(_top, user);
                     break;
 
             }

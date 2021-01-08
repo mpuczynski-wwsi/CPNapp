@@ -11,6 +11,9 @@ namespace CPNapp.Controller
     class Controller
     {
         public Cpn Config { get; private set; }
+
+        public User LoggedUser { get; set; }
+
         protected ReadConfig _rc;
         public Controller()
         {

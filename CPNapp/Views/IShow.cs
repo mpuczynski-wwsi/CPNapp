@@ -9,6 +9,6 @@ namespace CPNapp.Views
 {
     interface IShow
     {
-        void Show(Toplevel top);
+        void Show(Toplevel top, User user);
     }
 }

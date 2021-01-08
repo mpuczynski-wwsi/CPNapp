@@ -19,7 +19,7 @@ namespace CPNapp.Views
 
 		public PracownikController Controller { get; set; }
 
-        public void Show(Toplevel top)
+        public void Show(Toplevel top, User user)
         {
 			int margin = 2;
 			int padding = 1;
@@ -223,7 +223,15 @@ namespace CPNapp.Views
 
 			}
 		}
+
+		public void Show(Toplevel top)
+		{
+			Show(top, null);
+		}
+
 	}
+
+
 
 
 }

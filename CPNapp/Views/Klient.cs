@@ -1,4 +1,5 @@
 ﻿using CPNapp.Controller;
+using CPNapp.Vehicles;
 using NStack;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,11 @@ namespace CPNapp.Views
 
 		public KlientController Controller { get; set; }
 
-        public void Show(Toplevel top)
+        public void Show(Toplevel top, User user)
         {
+			Controller.LoggedUser = user;
+			Vehicle vehicle = Controller.LoggedUser.UsingVehicle;
+
 			int margin = 2;
 			int padding = 1;
 			int contentHeight = 8;
@@ -98,7 +102,7 @@ namespace CPNapp.Views
 				X = Pos.Percent(70),
 				Y = 0,
 				Width = Dim.Percent(100),
-				Height = Dim.Percent(100),
+				Height = Dim.Percent(50),
 				ColorScheme = Colors.Base,
 
 			};
@@ -156,14 +160,45 @@ namespace CPNapp.Views
 			{
 				if (args.KeyEvent.Key == Terminal.Gui.Key.ControlJ)
                 {
-					var delta = 0.23;
-					var price = dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Price;
-					dispensersList[_selectedDispenser - 1].ActualQuantity = dispensersList[_selectedDispenser - 1].ActualQuantity + delta;
-					dispensersList[_selectedDispenser - 1].DispenserScreens["quantity"].Text = dispensersList[_selectedDispenser - 1].getActualQuantity();
 
-					var actualPrice = (dispensersList[_selectedDispenser - 1].ActualQuantity * (float)dispensersList[_selectedDispenser - 1].PricePerUnit);
-					dispensersList[_selectedDispenser - 1].ActualPrice = (int)actualPrice;
-					dispensersList[_selectedDispenser - 1].DispenserScreens["price"].Text = dispensersList[_selectedDispenser - 1].getActualPrice();
+					double delta;
+					var slowDownSpeedAt = vehicle.TankCapacity * 0.97;
+
+					if (dispensersList[_selectedDispenser - 1].ActualQuantity >= slowDownSpeedAt)
+                    {
+						delta = 0.03;
+
+					}
+					else
+                    {
+						delta = 0.23;
+					}
+
+					if (dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Quantity <= 0)
+                    {
+						dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Quantity = 0;
+						Controller.UpdateConfigFile(Controller.Config);
+						MessageBox.ErrorQuery("Exception", "Brak paliwa w dystrybutorze", "Ok");
+					}
+
+					if (dispensersList[_selectedDispenser - 1].ActualQuantity < vehicle.TankCapacity)
+                    {
+						var price = dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Price;
+						dispensersList[_selectedDispenser - 1].ActualQuantity = dispensersList[_selectedDispenser - 1].ActualQuantity + delta;
+						dispensersList[_selectedDispenser - 1].DispenserScreens["quantity"].Text = dispensersList[_selectedDispenser - 1].getActualQuantity();
+
+						var actualPrice = (dispensersList[_selectedDispenser - 1].ActualQuantity * (float)dispensersList[_selectedDispenser - 1].PricePerUnit);
+						dispensersList[_selectedDispenser - 1].ActualPrice = (int)actualPrice;
+						dispensersList[_selectedDispenser - 1].DispenserScreens["price"].Text = dispensersList[_selectedDispenser - 1].getActualPrice();
+					} else
+                    {
+						MessageBox.ErrorQuery("Exception", "Zbiornik jest pełny", "Ok");
+					}
+
+					
+
+					dispensersList[_selectedDispenser - 1].FuelList[_selectedFuel].Quantity -= delta;
+					Controller.UpdateConfigFile(Controller.Config);
 
 
 					Thread.Sleep(50);
@@ -189,6 +224,46 @@ namespace CPNapp.Views
 
 				};
 			}
+
+
+
+
+
+			var window3 = new FrameView("Dane pojazdu")
+			{
+				X = Pos.Percent(70),
+				Y = Pos.Percent(50),
+				Width = Dim.Percent(100),
+				Height = Dim.Percent(50),
+				ColorScheme = Colors.Base,
+
+			};
+
+			var label = new Label($"Marka: {vehicle.Make}")
+			{
+				X = 0,
+				Y = 0,
+				Width = 15,
+				Height = 1,
+			};
+			window3.Add(label);
+
+			label = new Label($"Model: {vehicle.Model}")
+			{
+				X = 0,
+				Y = Pos.Bottom(label)+1,
+				Width = 15,
+				Height = 1,
+			};
+			window3.Add(label);
+
+
+
+
+
+			win.Add(window3);
+
+
 
 			top.Add(win);
 
@@ -220,7 +295,12 @@ namespace CPNapp.Views
 				d.DispenserScreens["price_per_quantity"].Text = d.getPricePerUnit(false);
 			}
 		}
-	}
+
+        public void Show(Toplevel top)
+        {
+			Show(top, null);
+        }
+    }
 
 
 }
